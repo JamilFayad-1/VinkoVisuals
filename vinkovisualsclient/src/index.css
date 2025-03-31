@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: black;
+}
+
+@font-face {
+  font-family: 'ArrayFont';
+  src: url('./fonts/Array-Regular.eot');
+  src: url('./fonts/Array-Regular.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Array-Regular.woff2') format('woff2'),
+       url('./fonts/Array-Regular.woff') format('woff'), 
+       url('./fonts/Array-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  word-wrap: break-word;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

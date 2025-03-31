@@ -1,0 +1,22 @@
+.header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100lvw;
+    height: 12lvh;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-container h1 {
+    position: absolute;
+    left: 0;
+    padding: 0 2lvw;
+    font-family: 'ArrayFont', sans-serif;
+    font-size: clamp(1rem, 3vw, 4rem);
+    color: black;
+}
