@@ -20,3 +20,11 @@
     font-size: clamp(1rem, 3vw, 4rem);
     color: black;
 }
+
+.header-nav {
+    position: relative;
+    width: clamp(200px, 50vw, 1000px);
+    display: flex;
+    align-items: center;
+}
+
