@@ -14,12 +14,43 @@
   font-family: 'ArrayFont';
   src: url('./fonts/Array-Regular.eot');
   src: url('./fonts/Array-Regular.eot?#iefix') format('embedded-opentype'),
-       url('./fonts/Array-Regular.woff2') format('woff2'),
-       url('./fonts/Array-Regular.woff') format('woff'), 
-       url('./fonts/Array-Regular.ttf') format('truetype');
+    url('./fonts/Array-Regular.woff2') format('woff2'),
+    url('./fonts/Array-Regular.woff') format('woff'),
+    url('./fonts/Array-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'Khand-Light';
+  src: url('./fonts/Khand-Light.woff2') format('woff2'),
+    url('./fonts/Khand-Light.woff') format('woff'),
+    url('./fonts/Khand-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Khand-Regular';
+  src: url('./fonts/Khand-Regular.woff2') format('woff2'),
+    url('./fonts/Khand-Regular.woff') format('woff'),
+    url('./fonts/Khand-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Khand-Medium';
+  src: url('./fonts/Khand-Medium.woff2') format('woff2'),
+    url('./fonts/Khand-Medium.woff') format('woff'),
+    url('./fonts/Khand-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
 
 html {
   scroll-behavior: smooth;
