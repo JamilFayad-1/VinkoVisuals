@@ -15,7 +15,7 @@
 .header-container h1 {
     position: absolute;
     left: 0;
-    padding: 0 2lvw;
+    padding: 0 0 0 3lvw;
     font-family: 'ArrayFont', sans-serif;
     font-size: clamp(1rem, 3vw, 4rem);
     color: black;
@@ -33,7 +33,7 @@
 
 .brand-letter-space {
     display: inline-block;
-    width: 0.5em;
+    width: 0.3em;
 }
 
 .brand-letter {
