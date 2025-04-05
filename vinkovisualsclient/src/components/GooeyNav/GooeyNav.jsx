@@ -4,7 +4,7 @@ import "./GooeyNav.css";
 const GooeyNav = ({
   items,
   animationTime = 300,
-  particleCount = 10,
+  particleCount = 6,
   particleDistances = [90, 10],
   particleR = 200,
   timeVariance = 0,
