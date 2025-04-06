@@ -1,15 +1,8 @@
 import { useState, useRef } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import './header.css'
-import GooeyNav from '../GooeyNav/GooeyNav'
 
 function Header() {
-
-    const items = [
-        { label: "Catalog", href: "#" },
-        { label: "Vision to reality", href: "#" },
-        { label: "Shop", href: "#" },
-        { label: "Contact", href: "#" },
-    ];
 
     const brandName = "Vinko Visuals";
 
@@ -30,15 +23,13 @@ function Header() {
     const logoEasterEggIndexRef = useRef(0);
     const lettersRef = useRef([]);
 
-    // Get random color from the palette
     const getRandomColor = () => {
         return glowColors[Math.floor(Math.random() * glowColors.length)];
     };
 
-    // Handle the easter egg animation
     const triggerEasterEgg = () => {
         setIsEasterEggActive(true);
-        
+
         // Generate all random colors at once
         const randomColors = lettersRef.current.map(() => ({
             color1: getRandomColor(),
@@ -47,12 +38,12 @@ function Header() {
             color4: getRandomColor(),
             color5: getRandomColor()
         }));
-        
+
         // Set the easter egg class on all letters using a single requestAnimationFrame
         requestAnimationFrame(() => {
             lettersRef.current.forEach((letter, i) => {
                 if (!letter) return;
-                
+
                 letter.classList.add('brand-letter-easter-egg');
 
                 letter.style.animationDelay = `${i * 30}ms`;
@@ -69,7 +60,7 @@ function Header() {
             requestAnimationFrame(() => {
                 lettersRef.current.forEach(letter => {
                     if (!letter) return;
-                    
+
                     letter.classList.remove('brand-letter-easter-egg');
 
                     letter.style.removeProperty('--glow-color1');
@@ -79,7 +70,7 @@ function Header() {
                     letter.style.removeProperty('--glow-color5');
                     letter.style.removeProperty('animation-delay');
                 });
-                
+
                 setIsEasterEggActive(false);
                 logoEasterEggIndexRef.current = 0;
             });
@@ -91,7 +82,7 @@ function Header() {
 
         logoEasterEggIndexRef.current += 1;
 
-        if (logoEasterEggIndexRef.current >= 30) {
+        if (logoEasterEggIndexRef.current >= 25) {
             triggerEasterEgg();
         } else {
             setHoveredIndex(index);
@@ -117,7 +108,8 @@ function Header() {
             } : {};
 
             return (
-                <span
+                <NavLink
+                    to="/"
                     key={`letter-${index}`}
                     className="brand-letter"
                     style={style}
@@ -126,7 +118,7 @@ function Header() {
                     onMouseLeave={handleLetterLeave}
                 >
                     {letter}
-                </span>
+                </NavLink>
             );
         });
     };
@@ -135,16 +127,12 @@ function Header() {
         <div className='header-container'>
             <h1 id='animatedBrandName'>{renderAnimatedBrandName()}</h1>
             <nav className='header-nav'>
-                <GooeyNav
-                    items={items}
-                    animationTime={200}
-                    pCount={1}
-                    minDistance={10}
-                    maxDistance={35}
-                    maxRotate={75}
-                    colors={[5, 6, 7, 8]}
-                    timeVariance={900}
-                />
+                <ul>
+                    <li><NavLink to="/catalog" className={({ isActive }) => isActive ? "active" : ""}>Catalog</NavLink></li>
+                    <li><NavLink to="/vision" className={({ isActive }) => isActive ? "active" : ""}>Vision to reality</NavLink></li>
+                    <li><NavLink to="/shop" className={({ isActive }) => isActive ? "active" : ""}>Shop</NavLink></li>
+                    <li><NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>Contact</NavLink></li>
+                </ul>
             </nav>
         </div>
     );

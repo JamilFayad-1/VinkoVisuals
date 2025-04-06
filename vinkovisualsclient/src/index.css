@@ -11,6 +11,47 @@
 }
 
 @font-face {
+  font-family: 'DaVinci Bold';
+  src: url('./fonts/TRJNDaVinci-Bold-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Heavy';
+  src: url('./fonts/TRJNDaVinci-Heavy-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Italic';
+  src: url('./fonts/TRJNDaVinciItalic-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Light';
+  src: url('./fonts/TRJNDaVinci-Light-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Medium';
+  src: url('./fonts/TRJNDaVinci-Medium-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Regular';
+  src: url('./fonts/TRJNDaVinci-Regular-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Semibold';
+  src: url('./fonts/TRJNDaVinci-Semibold-Trial.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'DaVinci Thin';
+  src: url('./fonts/TRJNDaVinci-Thin-Trial.ttf') format('truetype');
+}
+
+
+@font-face {
   font-family: 'ArrayFont';
   src: url('./fonts/Array-Regular.eot');
   src: url('./fonts/Array-Regular.eot?#iefix') format('embedded-opentype'),
