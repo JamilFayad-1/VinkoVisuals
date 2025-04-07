@@ -7,14 +7,24 @@ function Header() {
     const brandName = "Vinko Visuals";
 
     const glowColors = [
-        '#FFADAD', // Red
-        '#FFD6A5', // Green
-        '#FDFFB6', // Blue
-        '#CAFFBF', // Yellow
-        '#9BF6FF', // Purple
-        '#A0C4FF', // Orange
-        '#BDB2FF', // Cyan
-        '#FFC6FF'  // Pink
+        '#FFADAD',
+        '#FFD6A5',
+        '#FDFFB6',
+        '#CAFFBF',
+        '#9BF6FF',
+        '#A0C4FF',
+        '#BDB2FF', 
+        '#FFC6FF'  
+    ];
+
+    const glowColors2 = [
+        '#1783be',
+        '#0077b6',
+        '#54a6d3',
+        '#a3d0e9',
+        '#cce6f3',
+        '#006aa3',
+        '#00598a'  
     ];
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -23,7 +33,9 @@ function Header() {
     const logoEasterEggIndexRef = useRef(0);
     const lettersRef = useRef([]);
 
-    const getRandomColor = () => {
+    // Faire la fonction de getRandomColor2 
+
+    const getRandomColor = () => { 
         return glowColors[Math.floor(Math.random() * glowColors.length)];
     };
 
@@ -105,6 +117,7 @@ function Header() {
                 color: hoveredColor,
                 textShadow: `0 0 10px ${hoveredColor}80, 0 0 15px ${hoveredColor}40`,
                 transform: 'translateY(-5px) scale(1.1)'
+                
             } : {};
 
             return (

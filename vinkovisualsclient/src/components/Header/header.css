@@ -71,7 +71,7 @@
     text-decoration: none;
     cursor: pointer;
     filter: brightness(0.8);
-    transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+    transition: all 0.3s;
 }
 
 .brand-letter-easter-egg {

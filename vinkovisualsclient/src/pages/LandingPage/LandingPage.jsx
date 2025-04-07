@@ -15,6 +15,10 @@ function LandingPage() {
       <div className='lanyard-container'>
         <Lanyard gravity={[0, -40, 0]} />
       </div>
+
+      <div className='landing-page-text-container'>
+        <h1>Vinko Visuals is a creative design and visual experience <span>agency</span></h1>
+      </div>
       
     </div>
   );
