@@ -1,5 +1,6 @@
 .landing-page-container {
-    position: relative;
+    position: sticky;
+    top: 0;
     width: 100lvw;
     height: 100lvh;
 }
@@ -25,7 +26,8 @@
 
 .landing-page-text-container h1 {
     font-family: 'DaVinci Regular', sans-serif;
-    font-size: clamp(6rem, 10vw, 9rem);
+    font-size: clamp(4rem, 8vw, 9rem);
+    text-wrap: avoid;
     color: black;
     text-align: left;
     margin: 0;
@@ -38,3 +40,33 @@
     color: #0077b6;
 }
 
+.landing-page-text-container-2 {
+    position: relative;
+    width: 100lvw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+.curved-container {
+    position: relative;
+    height: 25lvh;
+    overflow: hidden;
+}
+
+.curve {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+
+.landing-page-text-container-2-content-wrapper {
+    position: relative;
+    width: inherit;
+    height: 100lvh;
+    background-color: #c4e0ef;
+}

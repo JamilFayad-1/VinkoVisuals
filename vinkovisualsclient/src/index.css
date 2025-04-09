@@ -99,7 +99,8 @@ html {
 }
 
 body {
-  height: 100%;
+  width: 100lvw;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
