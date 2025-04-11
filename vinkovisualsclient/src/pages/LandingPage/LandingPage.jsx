@@ -4,6 +4,9 @@ import lanyardTexture from '../../components/Lanyard/lanyard.png';
 import lanyardModel from '../../components/Lanyard/card.glb';
 import { useRef, useState, useEffect } from 'react';
 import VariableProximity from '../../components/VariableProximity/VariableProximity';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 function LandingPage() {
 
@@ -32,8 +35,8 @@ function LandingPage() {
       if (scrollY + window.innerHeight > sectionTop && scrollY < sectionTop + sectionHeight) {
         const scrollDistance = (scrollY - sectionTop) * 0.5;
         slowScrollRef.current.style.transform = `translateY(${scrollDistance}px)`;
-        slowScrollRef.current.style.opacity =  1 - `${scrollDistance/sectionHeight * 1.4}`;
-        slowScrollRef.current.style.filter = `blur(${scrollDistance/sectionHeight * 5}px)`;
+        slowScrollRef.current.style.opacity = 1 - `${scrollDistance / sectionHeight * 1.4}`;
+        slowScrollRef.current.style.filter = `blur(${scrollDistance / sectionHeight * 5}px)`;
       }
     }
   }, [scrollY]);
@@ -58,7 +61,8 @@ function LandingPage() {
             <path d="M 0 100 L 100 100 Q 50 -100 0 100 Z" fill="#c4e0ef" />
           </svg>
         </div>
-        <div className='transition-middle-shape'></div>
+        <div className='transition-middle-shape'>
+        </div>
         <div className="curved-container">
           <svg viewBox="0 0 100 50" className="curve" preserveAspectRatio="none">
             <path d="M 0 0 L 100 0 Q 50 100 0 0 Z" fill="#c4e0ef" />
@@ -68,6 +72,9 @@ function LandingPage() {
 
       <div className='landing-page-text-container-2'>
         <div className='landing-page-text-container-2-content-wrapper'>
+          <div className='landing-page-text-container-2-content-wrapper-title'>
+            <p>We create what your mind envisions — crafted with <span>precision</span>, powered by <span>emotion</span>.</p>
+          </div>
         </div>
       </div>
     </>

@@ -45,14 +45,14 @@
     margin: 0 1rem;
     font-family: 'DaVinci Medium', sans-serif;
     font-size: clamp(0.8rem, 1vw, 1rem);
-    color: black;
+    color: var(--text-color);
     cursor: pointer;
 }
 
 .header-nav ul li a {
     text-decoration: none;
     text-transform: uppercase;
-    color: black;
+    color: var(--text-color);
     transition: color 0.2s ease;
 }
 

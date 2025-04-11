@@ -85,6 +85,19 @@
 .landing-page-text-container-2-content-wrapper {
     position: relative;
     width: inherit;
-    height: 100lvh;
+    height: inherit;
     background-color: white;
+    padding: 12vh 3rem 3rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.landing-page-text-container-2-content-wrapper-title {
+    font-family: 'DaVinci Italic', sans-serif;
+    font-size: clamp(1.2rem, 1.5vw, 2rem);
+    text-wrap: balance;
+    color: var(--text-color);
+    padding: 3rem;
 }
