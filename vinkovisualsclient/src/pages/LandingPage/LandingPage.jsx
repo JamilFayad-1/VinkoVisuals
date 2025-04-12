@@ -55,25 +55,13 @@ function LandingPage() {
 
       </div>
 
-      <div className='transition-shape'>
-        <div className="curved-container">
-          <svg viewBox="0 0 100 99" className="curve" preserveAspectRatio="none">
-            <path d="M 0 100 L 100 100 Q 50 -100 0 100 Z" fill="#c4e0ef" />
-          </svg>
-        </div>
-        <div className='transition-middle-shape'>
-        </div>
-        <div className="curved-container">
-          <svg viewBox="0 0 100 50" className="curve" preserveAspectRatio="none">
-            <path d="M 0 0 L 100 0 Q 50 100 0 0 Z" fill="#c4e0ef" />
-          </svg>
-        </div>
-      </div>
-
       <div className='landing-page-text-container-2'>
         <div className='landing-page-text-container-2-content-wrapper'>
           <div className='landing-page-text-container-2-content-wrapper-title'>
             <p>We create what your mind envisions — crafted with <span>precision</span>, powered by <span>emotion</span>.</p>
+          </div>
+          <div className='landing-page-text-container-2-content-wrapper-picture'>
+
           </div>
         </div>
       </div>

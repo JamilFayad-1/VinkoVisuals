@@ -35,6 +35,10 @@ function Header() {
 
     // Faire la fonction de getRandomColor2 
 
+    const getRandomColor2 = () => {
+        return glowColors2[Math.floor(Math.random() * glowColors.length)];
+    }
+
     const getRandomColor = () => { 
         return glowColors[Math.floor(Math.random() * glowColors.length)];
     };
@@ -98,7 +102,7 @@ function Header() {
             triggerEasterEgg();
         } else {
             setHoveredIndex(index);
-            setHoveredColor(getRandomColor());
+            setHoveredColor(getRandomColor2());
         }
     };
 
