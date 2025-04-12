@@ -14,8 +14,20 @@ function LandingPage() {
 
   const containerRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const slowScrollRef = useRef(null);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,9 +59,11 @@ function LandingPage() {
     <>
       <div ref={slowScrollRef} className='landing-page-container'>
 
-        <div className='lanyard-container'>
-          <Lanyard gravity={[0, -40, 0]} />
-        </div>
+        {!isMobile && (
+          <div className='lanyard-container'>
+            <Lanyard gravity={[0, -40, 0]} />
+          </div>
+        )}
 
         <div className='landing-page-text-container'>
           <h1>Vinko Visuals is a creative design and visual experience <span>agency</span></h1>

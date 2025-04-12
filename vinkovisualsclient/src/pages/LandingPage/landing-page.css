@@ -1,5 +1,6 @@
 .landing-page-container {
     position: relative;
+    top: 0;
     width: 100lvw;
     height: 100lvh;
 }
@@ -20,6 +21,7 @@
     align-items: end;
     justify-content: start;
     padding: 0 0 15lvh 3lvw;
+    pointer-events: none;
 }
 
 .landing-page-text-container h1 {
@@ -45,6 +47,7 @@
     max-height: 100lvh;
     display: flex;
     flex-direction: column;
+    pointer-events: none;
 }
 
 .landing-page-text-container-2-content-wrapper {
