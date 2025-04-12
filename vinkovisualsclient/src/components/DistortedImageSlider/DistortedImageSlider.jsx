@@ -80,7 +80,7 @@ const DistortedImageSlider = ({ THREE }) => {
             };
 
             const imageIndex = (index % imagesCount) + 1;
-            const imagePath = `../../../public/img${imageIndex}.jpg`;
+            const imagePath = `/img${imageIndex}.jpg`;
 
             new THREE.TextureLoader().load(
                 imagePath,
