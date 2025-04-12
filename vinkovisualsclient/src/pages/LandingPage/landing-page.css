@@ -44,6 +44,7 @@
     position: relative;
     width: 100lvw;
     height: 100lvh;
+    max-height: 100lvh;
     display: flex;
     flex-direction: column;
     pointer-events: none;
@@ -54,7 +55,7 @@
     width: inherit;
     height: inherit;
     background-color: white;
-    padding: 12vh 3rem 3rem 3rem;
+    padding: 12vh 0 3rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -69,4 +70,31 @@
     color: var(--text-color);
     padding: 3rem;
 }
+
+.landing-page-text-container-2-content-wrapper-picture {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+#canvas {
+    position: relative;
+    width: 100vw;
+    height: 50vh;
+    max-height: 50vh;
+    overflow: visible;
+  }
+
+  .landing-page-text-container-3 {
+    position: relative;
+    width: 100lvw;
+    height: 100lvh;
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+  }
 

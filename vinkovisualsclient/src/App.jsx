@@ -5,6 +5,8 @@ import Header from './components/Header/Header';
 import { ReactLenis, useLenis } from 'lenis/react';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import * as THREE from "three";
 
 const MemoizedHeader = memo(Header);
 

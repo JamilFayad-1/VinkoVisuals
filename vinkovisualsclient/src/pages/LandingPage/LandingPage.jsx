@@ -7,6 +7,8 @@ import VariableProximity from '../../components/VariableProximity/VariableProxim
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import * as THREE from "three";
+import DistortedImageSlider from '../../components/DistortedImageSlider/DistortedImageSlider';
 
 function LandingPage() {
 
@@ -61,9 +63,15 @@ function LandingPage() {
             <p>We create what your mind envisions — crafted with <span>precision</span>, powered by <span>emotion</span>.</p>
           </div>
           <div className='landing-page-text-container-2-content-wrapper-picture'>
-
+            <canvas id="canvas">
+              <DistortedImageSlider THREE={THREE} />
+            </canvas>
           </div>
         </div>
+      </div>
+
+      <div className='landing-page-text-container-3'>
+
       </div>
     </>
   );
