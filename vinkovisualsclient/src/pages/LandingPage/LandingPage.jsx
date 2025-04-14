@@ -13,11 +13,28 @@ import NavigationButton from '../../components/NavigationButton/NavigationButton
 
 function LandingPage() {
 
-  const containerRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+
+      const windowHeight = window.innerHeight;
+      const fadeStartCalculated = windowHeight;
+      const fadeEndCalculated = windowHeight * 0.65;
+
+      const fadeStart = fadeStartCalculated;
+      const fadeEnd = fadeEndCalculated;
+
+      const newOpacity = 1 - Math.min((scrollY - fadeStart) / (fadeEnd - fadeStart), 1);
+      setOpacity(newOpacity);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const [isMobile, setIsMobile] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const slowScrollRef = useRef(null);
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -30,35 +47,9 @@ function LandingPage() {
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (slowScrollRef.current) {
-      const sectionTop = slowScrollRef.current.offsetTop;
-      const sectionHeight = slowScrollRef.current.offsetHeight;
-
-      if (scrollY + window.innerHeight > sectionTop && scrollY < sectionTop + sectionHeight) {
-        const scrollDistance = (scrollY - sectionTop) * 0.5;
-        slowScrollRef.current.style.transform = `translateY(${scrollDistance}px)`;
-        slowScrollRef.current.style.opacity = 1 - `${scrollDistance / sectionHeight * 1.4}`;
-        slowScrollRef.current.style.filter = `blur(${scrollDistance / sectionHeight * 5}px)`;
-      }
-    }
-  }, [scrollY]);
-
   return (
     <>
-      <div ref={slowScrollRef} className='landing-page-container'>
+      <div style={{ opacity, transition: 'opacity 0.2s ease-out' }} className='landing-page-container'>
 
         {!isMobile && (
           <div className='lanyard-container'>
@@ -84,13 +75,13 @@ function LandingPage() {
             </canvas>
           </div>
           <div className='landing-page-text-container-2-content-wrapper-button-conversion'>
-            <button>Browse the Catalog</button>
+            <NavigationButton text="Browse the Catalog" link="/catalog" />
           </div>
         </div>
       </div>
 
       <div className='landing-page-text-container-3'>
-        <NavigationButton text="Browse the Catalog" link="/catalog" />
+
       </div>
     </>
   );

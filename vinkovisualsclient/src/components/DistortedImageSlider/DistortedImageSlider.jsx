@@ -33,12 +33,12 @@ const DistortedImageSlider = ({ THREE }) => {
             distortionSensitivity: 0.15,
             distortionSmoothing: 0.075,
             autoplaySpeed: 0.01,
-            idleDelay: 3000,
+            idleDelay: 1500,
         };
 
-        const slideWidth = 2.5;
+        const slideWidth = 2;
         const slideHeight = 2;
-        const gap = 0.1;
+        const gap = 0.5;
         const slideCount = 10;
         const imagesCount = 5;
         const totalWidth = slideCount * (slideWidth + gap);
@@ -91,7 +91,7 @@ const DistortedImageSlider = ({ THREE }) => {
                     material.map = texture;
                     material.color.set(0xffffff);
                     material.needsUpdate = true;
-
+s
                     const imgAspect = texture.image.width / texture.image.height;
                     const slideAspect = slideWidth / slideHeight;
 
