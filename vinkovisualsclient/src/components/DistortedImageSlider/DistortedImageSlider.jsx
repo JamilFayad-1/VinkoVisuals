@@ -7,7 +7,7 @@ const DistortedImageSlider = ({ THREE }) => {
             canvas,
             antialias: true,
             preserveDrawingBuffer: true,
-            alpha: true
+            alpha: true,
         });
 
         const canvasWidth = window.innerWidth;
@@ -18,17 +18,13 @@ const DistortedImageSlider = ({ THREE }) => {
         const scene = new THREE.Scene();
         renderer.setClearColor(0x000000, 0);
 
-        const camera = new THREE.PerspectiveCamera(
-            45,
-            canvasWidth / canvasHeight,
-            0.1,
-            100
-        );
+        const camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 100);
         camera.position.z = 3.5;
 
         const settings = {
             wheelSensitivity: 0.01,
             touchSensitivity: 0.01,
+            dragSensitivity: 0.005,
             momentumMultiplier: 2,
             smoothing: 0.1,
             slideLerp: 0.075,
@@ -36,6 +32,8 @@ const DistortedImageSlider = ({ THREE }) => {
             maxDistortion: 2.5,
             distortionSensitivity: 0.15,
             distortionSmoothing: 0.075,
+            autoplaySpeed: 0.01,
+            idleDelay: 3000,
         };
 
         const slideWidth = 2.5;
@@ -54,6 +52,10 @@ const DistortedImageSlider = ({ THREE }) => {
         let lastTime = 0;
         let touchStartX = 0;
         let touchLastX = 0;
+        let dragStartX = 0;
+        let dragging = false;
+        let idle = false;
+        let idleTimeout = null;
         let peakVelocity = 0;
         let currentDistortionFactor = 0;
         let targetDistortionFactor = 0;
@@ -100,7 +102,7 @@ const DistortedImageSlider = ({ THREE }) => {
                     }
                 },
                 undefined,
-                (err) => console.warn(`Couldn't load image ${imagePath}`, err)
+                () => { }
             );
 
             scene.add(mesh);
@@ -119,7 +121,6 @@ const DistortedImageSlider = ({ THREE }) => {
             const distortionCenter = new THREE.Vector2(0, 0);
             const distortionRadius = 2.0;
             const maxCurvature = settings.maxDistortion * distortionFactor;
-
             const positionAttribute = mesh.geometry.attributes.position;
             const originalVertices = mesh.userData.originalVertices;
 
@@ -128,17 +129,11 @@ const DistortedImageSlider = ({ THREE }) => {
                 const y = originalVertices[i * 3 + 1];
                 const vertexWorldPosX = worldPositionX + x;
                 const distFromCenter = Math.sqrt(
-                    (vertexWorldPosX - distortionCenter.x) ** 2 +
-                    (y - distortionCenter.y) ** 2
+                    (vertexWorldPosX - distortionCenter.x) ** 2 + (y - distortionCenter.y) ** 2
                 );
 
-                const distortionStrength = Math.max(
-                    0,
-                    1 - distFromCenter / distortionRadius
-                );
-                const curveZ =
-                    Math.pow(Math.sin((distortionStrength * Math.PI) / 2), 1.5) *
-                    maxCurvature;
+                const distortionStrength = Math.max(0, 1 - distFromCenter / distortionRadius);
+                const curveZ = Math.pow(Math.sin((distortionStrength * Math.PI) / 2), 1.5) * maxCurvature;
 
                 positionAttribute.setZ(i, curveZ);
             }
@@ -147,70 +142,43 @@ const DistortedImageSlider = ({ THREE }) => {
             mesh.geometry.computeVertexNormals();
         };
 
-        window.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") {
-                targetPosition += slideUnit;
-                targetDistortionFactor = Math.min(1.0, targetDistortionFactor + 0.3);
-            } else if (e.key === "ArrowRight") {
-                targetPosition -= slideUnit;
-                targetDistortionFactor = Math.min(1.0, targetDistortionFactor + 0.3);
-            }
-        });
+        const setIdle = () => {
+            if (idleTimeout) clearTimeout(idleTimeout);
+            idleTimeout = setTimeout(() => {
+                idle = true;
+            }, settings.idleDelay);
+        };
 
-        window.addEventListener(
-            "wheel",
-            (e) => {
-                e.preventDefault();
-                const wheelStrength = Math.abs(e.deltaY) * 0.001;
-                targetDistortionFactor = Math.min(
-                    1.0,
-                    targetDistortionFactor + wheelStrength
-                );
+        const onWheel = (e) => {
+            e.preventDefault();
+            const wheelStrength = Math.abs(e.deltaY) * 0.001;
+            targetDistortionFactor = Math.min(1.0, targetDistortionFactor + wheelStrength);
+            targetPosition -= e.deltaY * settings.wheelSensitivity;
+            isScrolling = true;
+            idle = false;
+            setIdle();
+            autoScrollSpeed = Math.min(Math.abs(e.deltaY) * 0.0005, 0.05) * Math.sign(e.deltaY);
+        };
 
-                targetPosition -= e.deltaY * settings.wheelSensitivity;
-                isScrolling = true;
-                autoScrollSpeed =
-                    Math.min(Math.abs(e.deltaY) * 0.0005, 0.05) * Math.sign(e.deltaY);
+        const onTouchStart = (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchLastX = touchStartX;
+            isScrolling = false;
+            idle = false;
+            setIdle();
+        };
 
-                clearTimeout(window.scrollTimeout);
-                window.scrollTimeout = setTimeout(() => {
-                    isScrolling = false;
-                }, 150);
-            },
-            { passive: false }
-        );
+        const onTouchMove = (e) => {
+            const touchX = e.touches[0].clientX;
+            const deltaX = touchX - touchLastX;
+            touchLastX = touchX;
+            const touchStrength = Math.abs(deltaX) * 0.02;
+            targetDistortionFactor = Math.min(1.0, targetDistortionFactor + touchStrength);
+            targetPosition -= deltaX * settings.touchSensitivity;
+            isScrolling = true;
+        };
 
-        window.addEventListener(
-            "touchstart",
-            (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchLastX = touchStartX;
-                isScrolling = false;
-            },
-            { passive: false }
-        );
-
-        window.addEventListener(
-            "touchmove",
-            (e) => {
-                e.preventDefault();
-                const touchX = e.touches[0].clientX;
-                const deltaX = touchX - touchLastX;
-                touchLastX = touchX;
-
-                const touchStrength = Math.abs(deltaX) * 0.02;
-                targetDistortionFactor = Math.min(
-                    1.0,
-                    targetDistortionFactor + touchStrength
-                );
-
-                targetPosition -= deltaX * settings.touchSensitivity;
-                isScrolling = true;
-            },
-            { passive: false }
-        );
-
-        window.addEventListener("touchend", () => {
+        const onTouchEnd = () => {
             const velocity = (touchLastX - touchStartX) * 0.005;
             if (Math.abs(velocity) > 0.5) {
                 autoScrollSpeed = -velocity * settings.momentumMultiplier * 0.05;
@@ -223,31 +191,50 @@ const DistortedImageSlider = ({ THREE }) => {
                     isScrolling = false;
                 }, 800);
             }
-        });
+        };
 
-        window.addEventListener("resize", () => {
+        const onMouseDown = (e) => {
+            dragStartX = e.clientX;
+            dragging = true;
+            idle = false;
+            setIdle();
+        };
+
+        const onMouseMove = (e) => {
+            if (!dragging) return;
+            const deltaX = e.clientX - dragStartX;
+            dragStartX = e.clientX;
+            const dragStrength = Math.abs(deltaX) * 0.02;
+            targetDistortionFactor = Math.min(1.0, targetDistortionFactor + dragStrength);
+            targetPosition -= deltaX * settings.dragSensitivity;
+            isScrolling = true;
+        };
+
+        const onMouseUp = () => {
+            dragging = false;
+        };
+
+        const onResize = () => {
             const canvasWidth = window.innerWidth;
             const canvasHeight = window.innerHeight * 0.6;
             camera.aspect = canvasWidth / canvasHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(canvasWidth, canvasHeight);
-        });
+        };
 
         const animate = (time) => {
             requestAnimationFrame(animate);
-
             const deltaTime = lastTime ? (time - lastTime) / 1000 : 0.016;
             lastTime = time;
             const prevPos = currentPosition;
 
             if (isScrolling) {
                 targetPosition += autoScrollSpeed;
-                autoScrollSpeed *= Math.max(
-                    0.92,
-                    0.97 - Math.abs(autoScrollSpeed) * 0.5
-                );
+                autoScrollSpeed *= Math.max(0.92, 0.97 - Math.abs(autoScrollSpeed) * 0.5);
                 if (Math.abs(autoScrollSpeed) < 0.001) autoScrollSpeed = 0;
             }
+
+            if (idle) targetPosition += settings.autoplaySpeed;
 
             currentPosition += (targetPosition - currentPosition) * settings.smoothing;
 
@@ -255,13 +242,11 @@ const DistortedImageSlider = ({ THREE }) => {
             velocityHistory.push(currentVelocity);
             velocityHistory.shift();
 
-            const avgVelocity =
-                velocityHistory.reduce((a, b) => a + b, 0) / velocityHistory.length;
+            const avgVelocity = velocityHistory.reduce((a, b) => a + b, 0) / velocityHistory.length;
             if (avgVelocity > peakVelocity) peakVelocity = avgVelocity;
 
             const velocityRatio = avgVelocity / (peakVelocity + 0.001);
             const isDecelerating = velocityRatio < 0.7 && peakVelocity > 0.5;
-
             peakVelocity *= 0.99;
 
             if (currentVelocity > 0.05) {
@@ -278,16 +263,14 @@ const DistortedImageSlider = ({ THREE }) => {
             }
 
             currentDistortionFactor +=
-                (targetDistortionFactor - currentDistortionFactor) *
-                settings.distortionSmoothing;
+                (targetDistortionFactor - currentDistortionFactor) * settings.distortionSmoothing;
 
             slides.forEach((slide, i) => {
                 let baseX = i * slideUnit - currentPosition;
                 baseX = ((baseX % totalWidth) + totalWidth) % totalWidth;
                 if (baseX > totalWidth / 2) baseX -= totalWidth;
 
-                const isWrapping =
-                    Math.abs(baseX - slide.userData.targetX) > slideWidth * 2;
+                const isWrapping = Math.abs(baseX - slide.userData.targetX) > slideWidth * 2;
                 if (isWrapping) slide.userData.currentX = baseX;
 
                 slide.userData.targetX = baseX;
@@ -304,7 +287,27 @@ const DistortedImageSlider = ({ THREE }) => {
             renderer.render(scene, camera);
         };
 
+        window.addEventListener("wheel", onWheel, { passive: false });
+        window.addEventListener("touchstart", onTouchStart, { passive: true });
+        window.addEventListener("touchmove", onTouchMove, { passive: false });
+        window.addEventListener("touchend", onTouchEnd, { passive: true });
+        window.addEventListener("mousedown", onMouseDown);
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mouseup", onMouseUp);
+        window.addEventListener("resize", onResize);
+
         animate();
+
+        return () => {
+            window.removeEventListener("wheel", onWheel);
+            window.removeEventListener("touchstart", onTouchStart);
+            window.removeEventListener("touchmove", onTouchMove);
+            window.removeEventListener("touchend", onTouchEnd);
+            window.removeEventListener("mousedown", onMouseDown);
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("resize", onResize);
+        };
     }, [THREE]);
 
     return null;

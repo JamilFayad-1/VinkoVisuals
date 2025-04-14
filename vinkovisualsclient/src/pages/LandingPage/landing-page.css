@@ -47,7 +47,6 @@
     max-height: 100lvh;
     display: flex;
     flex-direction: column;
-    pointer-events: none;
 }
 
 .landing-page-text-container-2-content-wrapper {
@@ -69,6 +68,13 @@
     text-wrap: balance;
     color: var(--text-color);
     padding: 3rem;
+    text-align: center;
+}
+
+.landing-page-text-container-2-content-wrapper-title p:nth-child(2) {
+    padding-top: 1.5rem;
+    font-size: clamp(1rem, 1.2vw, 1.6rem);
+    color: #555555;
 }
 
 .landing-page-text-container-2-content-wrapper-picture {
@@ -87,14 +93,18 @@
     height: 50vh;
     max-height: 50vh;
     overflow: visible;
-  }
+    cursor: grab;
+}
 
-  .landing-page-text-container-3 {
+#canvas:active {
+    cursor: grabbing;
+}
+
+.landing-page-text-container-3 {
     position: relative;
     width: 100lvw;
     height: 100lvh;
     display: flex;
     flex-direction: column;
-    background-color: red;
-  }
-
+    background-color: white;
+}

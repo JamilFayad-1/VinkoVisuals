@@ -9,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import * as THREE from "three";
 import DistortedImageSlider from '../../components/DistortedImageSlider/DistortedImageSlider';
+import NavigationButton from '../../components/NavigationButton/NavigationButton';
 
 function LandingPage() {
 
@@ -75,17 +76,21 @@ function LandingPage() {
         <div className='landing-page-text-container-2-content-wrapper'>
           <div className='landing-page-text-container-2-content-wrapper-title'>
             <p>We create what your mind envisions — crafted with <span>precision</span>, powered by <span>emotion</span>.</p>
+            <p>"Creativity is intelligence having fun." – Albert Einstein</p>
           </div>
           <div className='landing-page-text-container-2-content-wrapper-picture'>
             <canvas id="canvas">
               <DistortedImageSlider THREE={THREE} />
             </canvas>
           </div>
+          <div className='landing-page-text-container-2-content-wrapper-button-conversion'>
+            <button>Browse the Catalog</button>
+          </div>
         </div>
       </div>
 
       <div className='landing-page-text-container-3'>
-
+        <NavigationButton text="Browse the Catalog" link="/catalog" />
       </div>
     </>
   );
