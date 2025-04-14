@@ -17,10 +17,12 @@ function LandingPage() {
 
   useEffect(() => {
     const handleScroll = () => {
+      const mouseAnimation = document.querySelector('.mouse-scroll-anim');
+
       const scrollY = window.scrollY;
 
       const windowHeight = window.innerHeight;
-      const fadeStartCalculated = windowHeight;
+      const fadeStartCalculated = 0;
       const fadeEndCalculated = windowHeight * 0.65;
 
       const fadeStart = fadeStartCalculated;
@@ -28,6 +30,12 @@ function LandingPage() {
 
       const newOpacity = 1 - Math.min((scrollY - fadeStart) / (fadeEnd - fadeStart), 1);
       setOpacity(newOpacity);
+
+      if(newOpacity < 0.9) {
+        mouseAnimation.style.opacity = 0;
+      }else if(newOpacity >= 1) {
+        mouseAnimation.style.opacity = 1;
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -59,6 +67,29 @@ function LandingPage() {
 
         <div className='landing-page-text-container'>
           <h1>Vinko Visuals is a creative design and visual experience <span>agency</span></h1>
+        </div>
+
+        <div className='mouse-scroll-anim'>
+          <svg width="21" height="31" viewBox="0 0 21 31" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="20" height="30" rx="10" stroke="#333" fill="none" stroke-width="1" />
+
+            <rect x="10.2" y="5.2" width="1" height="6" fill="#333" stroke-linecap="round">
+              <animate
+                attributeName="y"
+                values="5; 23"
+                dur="1.2s"
+                repeatCount="indefinite"
+                keyTimes="0; 1"
+              />
+              <animate
+                attributeName="opacity"
+                values="1; 0; 0"
+                dur="1.2s"
+                repeatCount="indefinite"
+                keyTimes="0; 0.95; 1"
+              />
+            </rect>
+          </svg>
         </div>
 
       </div>

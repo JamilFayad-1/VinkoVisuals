@@ -11,6 +11,7 @@
     left: 0;
     height: 100lvh;
     width: 100lvw;
+    z-index: 10;
 }
 
 .landing-page-text-container {
@@ -29,7 +30,7 @@
     font-family: 'DaVinci Regular', sans-serif;
     font-size: clamp(4rem, 8vw, 9rem);
     text-wrap: avoid;
-    color: black;
+    color: var(--text-color);
     text-align: left;
     margin: 0;
     line-height: 85%;
@@ -48,6 +49,14 @@
     max-height: 100lvh;
     display: flex;
     flex-direction: column;
+}
+
+.mouse-scroll-anim {
+    position: absolute;
+    bottom: 4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.5s ease-in-out;
 }
 
 .landing-page-text-container-2-content-wrapper {
