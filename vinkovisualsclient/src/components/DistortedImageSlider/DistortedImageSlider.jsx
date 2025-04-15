@@ -19,7 +19,7 @@ const DistortedImageSlider = ({ THREE }) => {
         renderer.setClearColor(0x000000, 0);
 
         const camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 100);
-        camera.position.z = 3.5;
+        camera.position.z = 4;
 
         const settings = {
             wheelSensitivity: 0.01,

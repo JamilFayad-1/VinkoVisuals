@@ -10,6 +10,7 @@ function LandingPage() {
   const [opacity, setOpacity] = useState(1);
   const [isIdle, setIsIdle] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const idleState = useRef(true);
 
   useEffect(() => {
@@ -83,29 +84,33 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    let hasScrolled = false;
+    const handleScroll = (e) => {
+      if (hasScrolled) return;
 
-    const handleFirstSectionScroll = (e) => {
-
-      e.preventDefault();
       const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
 
-      if (scrollTop === 0 && !hasScrolled && e.deltaY > 0) {
+      if (scrollTop === 0 && e.deltaY > 0) {
+        e.preventDefault();
+
+        setHasScrolled(true);
+
         gsap.to(window, {
           scrollTo: {
             y: windowHeight,
             autoKill: true,
-          }
+          },
+          duration: 1, 
         });
-        hasScrolled = true;
       }
     };
 
-    window.addEventListener('wheel', handleFirstSectionScroll, { passive: false });
-    return () => window.removeEventListener('wheel', handleFirstSectionScroll);
+    window.addEventListener('wheel', handleScroll, { passive: false });
 
-  }, []);
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [hasScrolled]);
 
   return (
     <>
