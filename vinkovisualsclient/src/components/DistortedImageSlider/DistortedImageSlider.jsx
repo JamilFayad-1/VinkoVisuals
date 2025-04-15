@@ -91,7 +91,6 @@ const DistortedImageSlider = ({ THREE }) => {
                     material.map = texture;
                     material.color.set(0xffffff);
                     material.needsUpdate = true;
-s
                     const imgAspect = texture.image.width / texture.image.height;
                     const slideAspect = slideWidth / slideHeight;
 
