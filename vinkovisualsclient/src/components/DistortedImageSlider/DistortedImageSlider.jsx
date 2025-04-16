@@ -62,6 +62,7 @@ const DistortedImageSlider = ({ THREE }) => {
         let velocityHistory = [0, 0, 0, 0, 0];
         let touchDragging = false;
         let isMouseHeld = false;
+        let isScreenHeld = false;
 
         const correctImageColor = (texture) => {
             texture.colorSpace = THREE.SRGBColorSpace;
@@ -137,7 +138,7 @@ const DistortedImageSlider = ({ THREE }) => {
         const setIdle = () => {
             if (idleTimeout) clearTimeout(idleTimeout);
             idleTimeout = setTimeout(() => {
-                if (!isMouseHeld) idle = true;
+                if (!isMouseHeld || !isScreenHeld) idle = true;
                 else setIdle();
             }, settings.idleDelay);
         };
@@ -160,6 +161,7 @@ const DistortedImageSlider = ({ THREE }) => {
             idle = false;
             touchDragging = true;
             autoScrollSpeed = 0;
+            isScreenHeld = true;
             setIdle();
         };
 
@@ -182,6 +184,7 @@ const DistortedImageSlider = ({ THREE }) => {
                 autoScrollSpeed = -velocity * settings.momentumMultiplier * 0.05;
                 targetDistortionFactor = Math.min(1.0, Math.abs(velocity) * 3 * settings.distortionSensitivity);
                 isScrolling = true;
+                isScreenHeld = false;
                 setTimeout(() => {
                     isScrolling = false;
                 }, 800);
