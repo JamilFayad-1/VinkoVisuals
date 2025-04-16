@@ -169,8 +169,24 @@
 
 @media (max-width: 768px) {
     .landing-page-text-container h1 {
-        font-size: clamp(4rem, 8vw, 9rem);
+        font-size: clamp(3rem, 6vw, 8rem);
         text-wrap: keep-all;
         width: 95%;
+    }
+
+    .landing-page-text-container {
+        align-items: end;
+        justify-content: start;
+        padding: 0 0 30lvh 10lvw;
+        pointer-events: none;
+    }
+
+    .mouse-scroll-anim {
+        position: absolute;
+        bottom: env(safe-area-inset-bottom);
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease-in-out;
+        z-index: 999;
     }
 }
