@@ -46,6 +46,7 @@ function LandingPage() {
     if (!canvas || !mouseAnimation) return;
 
     const handleMouseDown = () => {
+
       mouseAnimation.style.opacity = 0;
       idleState.current = false;
       setIsIdle(false);
@@ -63,10 +64,14 @@ function LandingPage() {
 
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener('touchstart', handleMouseDown);
+    canvas.addEventListener('touchend', handleMouseUp);
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mouseup', handleMouseUp);
+      canvas.addEventListener('touchstart', handleMouseDown);
+      canvas.addEventListener('touchend', handleMouseUp);
     };
 
   }, []);
