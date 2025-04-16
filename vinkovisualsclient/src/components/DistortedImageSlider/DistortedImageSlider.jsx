@@ -284,13 +284,13 @@ const DistortedImageSlider = ({ THREE }) => {
         setIdle();
 
         window.addEventListener("resize", onResize);
-        window.addEventListener("wheel", onWheel, { passive: false });
-        window.addEventListener("touchstart", onTouchStart, { passive: false });
-        window.addEventListener("touchmove", onTouchMove, { passive: false });
-        window.addEventListener("touchend", onTouchEnd);
-        window.addEventListener("mousedown", onMouseDown);
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mouseup", onMouseUp);
+        canvas.addEventListener("wheel", onWheel, { passive: false });
+        canvas.addEventListener("touchstart", onTouchStart, { passive: false });
+        canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+        canvas.addEventListener("touchend", onTouchEnd);
+        canvas.addEventListener("mousedown", onMouseDown);
+        canvas.addEventListener("mousemove", onMouseMove);
+        canvas.addEventListener("mouseup", onMouseUp);
         window.addEventListener("mouseup", onMouseUp);
 
         return () => {
