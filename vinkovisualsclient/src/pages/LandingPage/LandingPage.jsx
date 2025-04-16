@@ -10,7 +10,6 @@ function LandingPage() {
   const [opacity, setOpacity] = useState(1);
   const [isIdle, setIsIdle] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
   const idleState = useRef(true);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ function LandingPage() {
 
       if (newOpacity < 0.95) {
         mouseAnimation.style.opacity = 0;
-      } else if (newOpacity >= 1) {
+      } else if (newOpacity >= 0.95) {
         mouseAnimation.style.opacity = 1;
       }
     };
@@ -84,36 +83,29 @@ function LandingPage() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = (e) => {
-      if (hasScrolled) return;
 
-      const scrollTop = window.scrollY;
+    const mouseIcon = document.querySelector('.mouse-scroll-anim');
+
+    const handleScroll = () => {
       const windowHeight = window.innerHeight;
 
-      if (scrollTop === 0 && e.deltaY > 0) {
-        e.preventDefault();
-
-        setHasScrolled(true);
-
-        gsap.to(window, {
-          scrollTo: {
-            y: windowHeight,
-            autoKill: true,
-          },
-          duration: 1, 
-        });
-      }
+      gsap.to(window, {
+        scrollTo: {
+          y: windowHeight,
+          autokill: false
+        }
+      })
     };
 
-    window.addEventListener('wheel', handleScroll, { passive: false });
+    mouseIcon.addEventListener('click', handleScroll);
 
     return () => {
-      window.removeEventListener('wheel', handleScroll);
+      mouseIcon.removeEventListener('click', handleScroll);
     };
-  }, [hasScrolled]);
+  }, []);
 
   return (
-    <>
+    <div className='landing-page'>
       <div style={{ opacity, transition: 'opacity 0.2s ease-out' }} className='landing-page-container'>
 
         {!isMobile && (
@@ -127,7 +119,7 @@ function LandingPage() {
         </div>
 
         <div className='mouse-scroll-anim'>
-          <svg width="21" height="31" viewBox="0 0 21 31" xmlns="http://www.w3.org/2000/svg">
+          <svg id='mouseAnim' width="21" height="31" viewBox="0 0 21 31" xmlns="http://www.w3.org/2000/svg">
             <rect x="0.5" y="0.5" width="20" height="30" rx="10" stroke="#333" fill="none" strokeWidth="1" />
 
             <rect x="10.2" y="5.2" width="1" height="6" fill="#333" strokeLinecap="round">
@@ -178,7 +170,7 @@ function LandingPage() {
 
       <div className='landing-page-text-container-3'>
       </div>
-    </>
+    </div>
   );
 }
 

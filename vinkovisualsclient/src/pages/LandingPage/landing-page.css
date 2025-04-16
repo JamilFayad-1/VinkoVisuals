@@ -1,24 +1,28 @@
-.landing-page-container {
+.landing-page {
     position: relative;
+    width: 100vw;
+    height: auto;
+}
+
+.landing-page-container {
+    position: sticky;
     top: 0;
     width: 100lvw;
     height: 100lvh;
 }
 
 .lanyard-container {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: absolute;
     height: 100lvh;
     width: 100lvw;
     z-index: 10;
 }
 
 .landing-page-text-container {
-    position: fixed;
-    top: 0;
-    width: inherit;
-    height: inherit;
+    position: relative;
+    top: 10px;
+    width: 100lvw;
+    height: 100lvh;
     display: flex;
     align-items: end;
     justify-content: start;
@@ -29,7 +33,7 @@
 .landing-page-text-container h1 {
     font-family: 'DaVinci Regular', sans-serif;
     font-size: clamp(4rem, 8vw, 9rem);
-    text-wrap: avoid;
+    text-wrap: balance;
     color: var(--text-color);
     text-align: left;
     margin: 0;
@@ -56,7 +60,18 @@
     bottom: 4vh;
     left: 50%;
     transform: translateX(-50%);
-    transition: all 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+    z-index: 999;
+}
+
+.mouse-scroll-anim svg {
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.mouse-scroll-anim svg:hover {
+    opacity: 1;
 }
 
 .landing-page-text-container-2-content-wrapper {
@@ -150,4 +165,12 @@
     display: flex;
     flex-direction: column;
     background-color: red;
+}
+
+@media (max-width: 768px) {
+    .landing-page-text-container h1 {
+        font-size: clamp(4rem, 8vw, 9rem);
+        text-wrap: keep-all;
+        width: 95%;
+    }
 }
