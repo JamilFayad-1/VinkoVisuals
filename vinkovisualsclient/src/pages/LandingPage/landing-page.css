@@ -187,11 +187,6 @@
     }
 
     .mouse-scroll-anim {
-        position: absolute;
-        bottom: env(safe-area-inset-bottom);
-        left: 50%;
-        transform: translateX(-50%);
-        transition: transform 0.5s ease-in-out;
-        z-index: 999;
+        padding: 0 0 1rem 0;
     }
 }
