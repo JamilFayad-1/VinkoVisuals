@@ -129,7 +129,7 @@ function LandingPage() {
     document.documentElement.style.setProperty('--ph', `${navBarHeight}px`);
   }
   
-  useViewportHeight();
+  useBottomNavHeight();
 
   return (
     <div className='landing-page'>
