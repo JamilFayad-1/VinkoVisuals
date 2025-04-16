@@ -104,6 +104,26 @@ function LandingPage() {
     };
   }, []);
 
+  function useViewportHeight() {
+    useEffect(() => {
+      const setRealViewportHeight = () => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      };
+  
+      setRealViewportHeight();
+      window.addEventListener('resize', setRealViewportHeight);
+      window.addEventListener('orientationchange', setRealViewportHeight);
+  
+      return () => {
+        window.removeEventListener('resize', setRealViewportHeight);
+        window.removeEventListener('orientationchange', setRealViewportHeight);
+      };
+    }, []);
+  }
+
+  useViewportHeight();
+
   return (
     <div className='landing-page'>
       <div style={{ opacity, transition: 'opacity 0.2s ease-out' }} className='landing-page-container'>
