@@ -184,6 +184,6 @@
     }
 
     .mouse-scroll-anim {
-        padding: 0 0 var(--ph) 0;
+        padding: 0 0 2rem 0;
     }
 }

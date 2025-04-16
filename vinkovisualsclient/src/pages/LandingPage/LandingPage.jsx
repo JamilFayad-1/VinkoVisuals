@@ -104,33 +104,6 @@ function LandingPage() {
     };
   }, []);
 
-  function useBottomNavHeight() {
-    const [navBarHeight, setNavBarHeight] = useState(0);
-  
-    useEffect(() => {
-      const updateNavBarHeight = () => {
-        const fullScreenHeight = window.screen.height;
-        const visibleHeight = window.innerHeight;
-        const diff = fullScreenHeight - visibleHeight;
-        setNavBarHeight(diff > 0 ? diff : 0);
-      };
-  
-      updateNavBarHeight();
-  
-      window.addEventListener('resize', updateNavBarHeight);
-      window.addEventListener('orientationchange', updateNavBarHeight);
-  
-      return () => {
-        window.removeEventListener('resize', updateNavBarHeight);
-        window.removeEventListener('orientationchange', updateNavBarHeight);
-      };
-    }, []);
-  
-    document.documentElement.style.setProperty('--ph', `${navBarHeight}px`);
-  }
-  
-  useBottomNavHeight();
-
   return (
     <div className='landing-page'>
       <div style={{ opacity, transition: 'opacity 0.2s ease-out' }} className='landing-page-container'>
