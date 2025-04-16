@@ -97,19 +97,21 @@ function LandingPage() {
   useEffect(() => {
 
     const mouseIcon = document.querySelector('.mouse-scroll-anim');
+    const targetSection = document.getElementById('section2');
 
     const handleScroll = (e) => {
       e.preventDefault();
+      if (!targetSection) return;
 
-      const windowHeight = window.innerHeight;
+      const offsetTop = targetSection.offsetTop;
 
       gsap.to(window, {
         scrollTo: {
-          y: window.scrollY + windowHeight,
+          y: offsetTop,
           autoKill: false
         },
         duration: 1,
-        ease: "power2.out"
+        ease: 'power2.out'
       });
     };
 
@@ -165,7 +167,7 @@ function LandingPage() {
 
       </div>
 
-      <div className='landing-page-text-container-2'>
+      <div id='section2' className='landing-page-text-container-2'>
         <div className='landing-page-text-container-2-content-wrapper'>
           <div className='landing-page-text-container-2-content-wrapper-title'>
             <p>We create what your mind envisions — crafted with <span>precision</span>, powered by <span>emotion</span>.</p>
