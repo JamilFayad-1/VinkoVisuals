@@ -104,24 +104,31 @@ function LandingPage() {
     };
   }, []);
 
-  function useViewportHeight() {
+  function useBottomNavHeight() {
+    const [navBarHeight, setNavBarHeight] = useState(0);
+  
     useEffect(() => {
-      const setRealViewportHeight = () => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      const updateNavBarHeight = () => {
+        const fullScreenHeight = window.screen.height;
+        const visibleHeight = window.innerHeight;
+        const diff = fullScreenHeight - visibleHeight;
+        setNavBarHeight(diff > 0 ? diff : 0);
       };
   
-      setRealViewportHeight();
-      window.addEventListener('resize', setRealViewportHeight);
-      window.addEventListener('orientationchange', setRealViewportHeight);
+      updateNavBarHeight();
+  
+      window.addEventListener('resize', updateNavBarHeight);
+      window.addEventListener('orientationchange', updateNavBarHeight);
   
       return () => {
-        window.removeEventListener('resize', setRealViewportHeight);
-        window.removeEventListener('orientationchange', setRealViewportHeight);
+        window.removeEventListener('resize', updateNavBarHeight);
+        window.removeEventListener('orientationchange', updateNavBarHeight);
       };
     }, []);
+  
+    document.documentElement.style.setProperty('--ph', `${navBarHeight}px`);
   }
-
+  
   useViewportHeight();
 
   return (

@@ -164,13 +164,10 @@
     height: 100lvh;
     display: flex;
     flex-direction: column;
-    background-color: red;
+    background-color: white;
 }
 
 @media (max-width: 768px) {
-    .landing-page-container {
-        height: calc(var(--vh, 1vh) * 100);
-    }
 
     .landing-page-text-container h1 {
         font-size: clamp(3rem, 6vw, 8rem);
@@ -187,10 +184,6 @@
     }
 
     .mouse-scroll-anim {
-        padding: 0 0 10px 0;
-    }
-
-    .landing-page-text-container-2 {
-        height: calc(var(--vh, 1vh) * 100);
+        padding: 0 0 var(--ph) 0;
     }
 }
