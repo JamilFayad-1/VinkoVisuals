@@ -43,6 +43,9 @@ function LandingPage() {
 
     const mouseAnimation = document.querySelector('.landing-page-text-container-2-extra-info');
     const canvas = document.getElementById('canvas');
+
+    let idleTimeout = null;
+
     if (!canvas || !mouseAnimation) return;
 
     const handleMouseDown = () => {
@@ -50,11 +53,15 @@ function LandingPage() {
       mouseAnimation.style.opacity = 0;
       idleState.current = false;
       setIsIdle(false);
+
+      if (idleTimeout) {
+        clearTimeout(idleTimeout);
+      }
     }
 
     const handleMouseUp = () => {
       if (!idleState.current) {
-        setTimeout(() => {
+        idleTimeout = setTimeout(() => {
           mouseAnimation.style.opacity = 0.7;
           idleState.current = true;
           setIsIdle(true);
