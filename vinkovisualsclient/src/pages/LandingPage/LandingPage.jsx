@@ -171,7 +171,7 @@ function LandingPage() {
               <line x1="35" y1="12" x2="5" y2="12" stroke="#616161" strokeWidth="1" strokeLinecap="round" />
               <polyline points="11,8 5,12 11,16" fill="none" stroke="#616161" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <p>Hold to swipe</p>
+            {!isMobile ? <p>Hold to swipe</p> : <p>swipe</p>}
             <svg className="arrow-hold" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 24" fill="none">
               <line x1="5" y1="12" x2="35" y2="12" stroke="#616161" strokeWidth="1" strokeLinecap="round" />
               <polyline points="29,8 35,12 29,16" fill="none" stroke="#616161" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
