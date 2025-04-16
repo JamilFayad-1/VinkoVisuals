@@ -98,21 +98,31 @@ function LandingPage() {
 
     const mouseIcon = document.querySelector('.mouse-scroll-anim');
 
-    const handleScroll = () => {
+    const handleScroll = (e) => {
+      e.preventDefault();
+
       const windowHeight = window.innerHeight;
 
       gsap.to(window, {
         scrollTo: {
-          y: windowHeight,
-          autokill: false
-        }
-      })
+          y: window.scrollY + windowHeight,
+          autoKill: false
+        },
+        duration: 1,
+        ease: "power2.out"
+      });
     };
 
-    mouseIcon.addEventListener('click', handleScroll);
+    if (mouseIcon) {
+      mouseIcon.addEventListener('click', handleScroll);
+      mouseIcon.addEventListener('touchstart', handleScroll);
+    }
 
     return () => {
-      mouseIcon.removeEventListener('click', handleScroll);
+      if (mouseIcon) {
+        mouseIcon.removeEventListener('click', handleScroll);
+        mouseIcon.removeEventListener('touchstart', handleScroll);
+      }
     };
   }, []);
 
