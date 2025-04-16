@@ -138,7 +138,7 @@ const DistortedImageSlider = ({ THREE }) => {
         const setIdle = () => {
             if (idleTimeout) clearTimeout(idleTimeout);
             idleTimeout = setTimeout(() => {
-                if (!isMouseHeld || !isScreenHeld) idle = true;
+                if (!isMouseHeld && !isScreenHeld) idle = true;
                 else setIdle();
             }, settings.idleDelay);
         };
@@ -184,13 +184,11 @@ const DistortedImageSlider = ({ THREE }) => {
                 autoScrollSpeed = -velocity * settings.momentumMultiplier * 0.05;
                 targetDistortionFactor = Math.min(1.0, Math.abs(velocity) * 3 * settings.distortionSensitivity);
                 isScrolling = true;
-                isScreenHeld = false;
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 800);
+                setTimeout(() => (isScrolling = false), 800);
             } else {
                 autoScrollSpeed = 0;
             }
+            isScreenHeld = false;
         };
 
         const onMouseDown = (e) => {
@@ -282,29 +280,32 @@ const DistortedImageSlider = ({ THREE }) => {
             renderer.render(scene, camera);
         };
 
+        animate();
+        setIdle();
+
         window.addEventListener("resize", onResize);
-        window.addEventListener("wheel", onWheel, { passive: false });
-        canvas.addEventListener("touchstart", onTouchStart, { passive: true });
+        canvas.addEventListener("wheel", onWheel, { passive: false });
+        canvas.addEventListener("touchstart", onTouchStart, { passive: false });
         canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-        canvas.addEventListener("touchend", onTouchEnd, { passive: true });
+        canvas.addEventListener("touchend", onTouchEnd);
         canvas.addEventListener("mousedown", onMouseDown);
         canvas.addEventListener("mousemove", onMouseMove);
         canvas.addEventListener("mouseup", onMouseUp);
-        animate();
+        window.addEventListener("mouseup", onMouseUp);
 
         return () => {
-            window.removeEventListener("resize", onResize);
             window.removeEventListener("wheel", onWheel);
-            canvas.removeEventListener("touchstart", onTouchStart);
-            canvas.removeEventListener("touchmove", onTouchMove);
-            canvas.removeEventListener("touchend", onTouchEnd);
-            canvas.removeEventListener("mousedown", onMouseDown);
-            canvas.removeEventListener("mousemove", onMouseMove);
-            canvas.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("touchstart", onTouchStart);
+            window.removeEventListener("touchmove", onTouchMove);
+            window.removeEventListener("touchend", onTouchEnd);
+            window.removeEventListener("mousedown", onMouseDown);
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("resize", onResize);
         };
     }, [THREE]);
 
-    return <canvas id="canvas" className="w-full h-auto" />;
+    return null;
 };
 
 export default DistortedImageSlider;
