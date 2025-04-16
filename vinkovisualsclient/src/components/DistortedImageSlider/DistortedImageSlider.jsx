@@ -214,12 +214,30 @@ const DistortedImageSlider = ({ THREE }) => {
             isMouseHeld = false;
         };
 
+        let resizeTimeout;
+        let lastWidth = window.innerWidth;
+        let lastHeight = window.innerHeight;
+
         const onResize = () => {
-            const canvasWidth = window.innerWidth;
-            const canvasHeight = window.innerHeight * 0.6;
-            camera.aspect = canvasWidth / canvasHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(canvasWidth, canvasHeight);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const canvasWidth = window.innerWidth;
+                const canvasHeight = window.innerHeight * 0.6;
+
+                const widthDiff = Math.abs(canvasWidth - lastWidth);
+                const heightDiff = Math.abs(canvasHeight - (lastHeight * 0.6));
+
+                const threshold = 50;
+
+                if (widthDiff > threshold || heightDiff > threshold) {
+                    camera.aspect = canvasWidth / canvasHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(canvasWidth, canvasHeight);
+
+                    lastWidth = canvasWidth;
+                    lastHeight = window.innerHeight;
+                }
+            }, 200);
         };
 
         const animate = (time) => {
