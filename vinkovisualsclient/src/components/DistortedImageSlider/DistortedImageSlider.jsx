@@ -60,8 +60,9 @@ const DistortedImageSlider = ({ THREE }) => {
         let currentDistortionFactor = 0;
         let targetDistortionFactor = 0;
         let velocityHistory = [0, 0, 0, 0, 0];
-        let isTouchSliderGesture = false;
-        let touchStartY = 0;
+        let touchDragging = false;
+        let isMouseHeld = false;
+
 
 
         const correctImageColor = (texture) => {
@@ -147,7 +148,11 @@ const DistortedImageSlider = ({ THREE }) => {
         const setIdle = () => {
             if (idleTimeout) clearTimeout(idleTimeout);
             idleTimeout = setTimeout(() => {
-                idle = true;
+                if (!isMouseHeld) {
+                    idle = true;
+                } else {
+                    setIdle();
+                }
             }, settings.idleDelay);
         };
 
@@ -164,37 +169,33 @@ const DistortedImageSlider = ({ THREE }) => {
 
         const onTouchStart = (e) => {
             touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
             touchLastX = touchStartX;
             isScrolling = false;
-            isTouchSliderGesture = false;
             idle = false;
+            touchDragging = true;
+            autoScrollSpeed = 0;
             setIdle();
         };
 
         const onTouchMove = (e) => {
+            if (!touchDragging) return;
+
             const touchX = e.touches[0].clientX;
-            const touchY = e.touches[0].clientY;
-        
             const deltaX = touchX - touchLastX;
-            const deltaY = touchY - touchStartY;
-        
-            if (!isTouchSliderGesture && Math.abs(deltaX) > Math.abs(deltaY)) {
-                isTouchSliderGesture = true;
-            }
-        
-            if (isTouchSliderGesture) {
-                e.preventDefault();
-                touchLastX = touchX;
-        
-                const touchStrength = Math.abs(deltaX) * 0.02;
-                targetDistortionFactor = Math.min(1.0, targetDistortionFactor + touchStrength);
-                targetPosition -= deltaX * settings.touchSensitivity;
-                isScrolling = true;
-            }
+            touchLastX = touchX;
+
+            const touchStrength = Math.abs(deltaX) * 0.02;
+            targetDistortionFactor = Math.min(1.0, targetDistortionFactor + touchStrength);
+            targetPosition -= deltaX * settings.touchSensitivity;
+
+            isScrolling = true;
+
+            e.preventDefault();
         };
 
         const onTouchEnd = () => {
+            touchDragging = false;
+
             const velocity = (touchLastX - touchStartX) * 0.005;
             if (Math.abs(velocity) > 0.5) {
                 autoScrollSpeed = -velocity * settings.momentumMultiplier * 0.05;
@@ -206,15 +207,19 @@ const DistortedImageSlider = ({ THREE }) => {
                 setTimeout(() => {
                     isScrolling = false;
                 }, 800);
+            } else {
+                autoScrollSpeed = 0;
             }
         };
 
         const onMouseDown = (e) => {
             dragStartX = e.clientX;
             dragging = true;
+            isMouseHeld = true;
             idle = false;
             setIdle();
         };
+
 
         const onMouseMove = (e) => {
             if (!dragging) return;
@@ -228,6 +233,7 @@ const DistortedImageSlider = ({ THREE }) => {
 
         const onMouseUp = () => {
             dragging = false;
+            isMouseHeld = false;
         };
 
         const onResize = () => {
